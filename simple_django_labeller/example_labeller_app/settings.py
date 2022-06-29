@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '3+p2$qln6o1ws1c)6o!+o+p%ql1n!+tt@wp)g5!pfgliqld)yo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = ['https://imageapp1.azurewebsites.net']
+DEBUG = True
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 
 # Application definition
@@ -102,7 +102,7 @@ USE_TZ = True
 WHITENOISE_USE_FINDERS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://imageapp1.azurewebsites.net'
+    'https://avistosimage.herokuapp.com'
 ]
 
 # Static files (CSS, JavaScript, Images)
