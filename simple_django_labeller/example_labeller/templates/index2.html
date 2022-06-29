@@ -1,0 +1,191 @@
+{% load labelling_tool_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+	<title>Avistos</title>
+
+    <!-- vendor css -->
+    <link href="/static/lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/lib/Ionicons/css/ionicons.css" rel="stylesheet">
+    <link href="/static/lib/chartist/css/chartist.css" rel="stylesheet">
+    <link href="/static/lib/rickshaw/css/rickshaw.min.css" rel="stylesheet">
+
+    <!-- Slim CSS -->
+    <link rel="stylesheet" href="/static/css/slim.css">
+
+  </head>
+  <body>
+    <div class="slim-header">
+      <div class="container">
+        <div class="slim-header-left">
+          <h2 class="slim-logo"><img SRC="/static/css/logo-default.png" /></h2>
+
+        </div><!-- slim-header-left -->
+        <div class="slim-header-right">
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              {% if request.user.is_staff %}
+              <li class="nav-item active">
+                <a class="nav-link" href="#"> Dashboard</a>
+              </li>
+              
+              {% endif %}
+            </ul>
+          </div>
+          <div class="dropdown dropdown-c">
+            <a href="#" class="logged-user" data-toggle="dropdown">
+              <span>{{name}}</span>
+              <i class="fa fa-angle-down"></i>
+            </a>
+          
+          </div><!-- dropdown -->
+        </div><!-- header-right -->
+      </div><!-- container -->
+    </div><!-- slim-header -->
+  
+
+    <div class="slim-mainpanel">
+      <div class="container">
+        <div class="slim-pageheader">
+          <ol class="breadcrumb slim-breadcrumb">
+          
+          </ol>
+          
+        </div><!-- slim-pageheader -->
+
+        <div class="row">
+          <div class="col-md-6 col-lg-4">
+
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="color: black;">
+              <h2 class="page-header">Welcome To Avistos </h2>
+              
+              </div> 
+
+          </div>
+        </div>
+<!----------------------------------------------------  Tool Block        ---------------------------------------------- -->
+        <div class="row row-sm mg-t-20">
+          <div class="col-lg-4">
+            <div class="card card-table">
+              <div class="card-header">
+                <h6 class="slim-card-title">Avistos Tools</h6>
+              </div><!-- card-header -->
+              <div class="table-responsive">
+                <table class="table mg-b-0 tx-13">
+                  <thead>
+                    <tr class="tx-10">
+                      <th class="wd-10p pd-y-5">&nbsp;</th>
+                      <th class="pd-y-5">Image Annotation</th>
+                     
+                    </tr>
+                  </thead>
+                  <tbody>
+        
+                    <tr>
+                      <td>
+                        <a href="{% url 'example_labeller:tool' %}" class="tx-inverse tx-14 tx-medium d-block">Labelling tool</a>                                      
+                      </td>                                       
+                    </tr>
+                    <hr>
+
+                    <tr>
+                      <td>
+                        <a href="{% url 'example_labeller:schema_editor' %}" class="tx-inverse tx-14 tx-medium d-block">Schema editor</a>                       
+                      </td>                 
+                    </tr>
+                    <hr>
+                    
+                    <tr>
+                      <td>
+                        <!-- <a href="#" class="tx-inverse tx-14 tx-medium d-block">Upload images</a> -->
+                        <div class="col-9 d-flex justify-content-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#upload_modal">Upload images</button></div>                       
+                      </td>                 
+                    </tr>
+
+                    <hr>
+                    <tr>
+                      <td>
+                        <a href="/admin" class="tx-inverse tx-14 tx-medium d-block">Django admin</a>                       
+                      </td>                 
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div><!-- table-responsive -->
+              
+            </div><!-- card -->
+          </div><!-- col-6 -->
+
+          <!-- <div>
+            <div class="col-9 d-flex justify-content-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#upload_modal">Upload images</button></div>
+
+          </div> -->
+<!---------------------- modal code----------------------------- -->
+          <div class="modal fade" id="upload_modal" tabindex="-1" role="dialog" aria-labelledby="upload_modal_label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="upload_modal_label">Upload images</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'example_labeller:upload_images' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <p>Please upload either:</p>
+                            <ul>
+                                <li>Single JPEG or PNG image files</li>
+                                <li>A ZIP file containing JPEGS or PNGS with label files (same name with <code>__labels.json</code> suffix)</li>
+                            </ul>
+                            <p>{{ upload_form.file }}</p>
+                            <p><input type="submit" value="Upload" class="btn btn-primary"></p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+  <!-----------------------------------   ---------------------------- -->
+
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+        
+        </div><!-- col-6 -->
+      </div><!-- row -->
+
+      </div><!-- container -->
+    </div><!-- slim-mainpanel -->
+
+    <div class="slim-footer">
+      <div class="container">
+        <p>Copyright 2022 &copy; All Rights Reserved. Avistos</p>
+      </div><!-- container -->
+    </div><!-- slim-footer -->
+
+    <script src="/static/lib/jquery/js/jquery.js"></script>
+    <script src="/static/lib/popper.js/js/popper.js"></script>
+    <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/lib/jquery.cookie/js/jquery.cookie.js"></script>
+    <script src="/static/lib/chartist/js/chartist.js"></script>
+    <script src="/static/lib/d3/js/d3.js"></script>
+    <script src="/static/lib/rickshaw/js/rickshaw.min.js"></script>
+    <script src="/static/lib/jquery.sparkline.bower/js/jquery.sparkline.min.js"></script>
+
+    <script src="/static/js/ResizeSensor.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/slim.js"></script>
+  </body>
+</html>
