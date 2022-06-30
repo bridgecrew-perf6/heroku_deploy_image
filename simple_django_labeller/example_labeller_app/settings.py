@@ -1,14 +1,21 @@
-
-
+from pathlib import Path
 import os
+from decouple import config
 from image_labelling_tool import labelling_tool
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = '3+p2$qln6o1ws1c)6o!+o+p%ql1n!+tt@wp)g5!pfgliqld)yo'
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-@@7uqw0%@1z_!$r!t+-8r96ujsa0*prkeo086tl5@6mb5@dge1'
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-# ALLOWED_HOSTS = []
+
 ALLOWED_HOSTS = ['.herokuapp.com']
 
 
@@ -34,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_visit.middleware.UserVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'example_labeller_app.urls'
@@ -49,7 +57,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.static',
             ],
         },
     },
@@ -57,95 +64,54 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'example_labeller_app.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.8/topics/i18n/
+# https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
 WHITENOISE_USE_FINDERS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://avistosimage.herokuapp.com'
+    'https://image-avistos.herokuapp.com'
 ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
+STATIC_URL = 'static/'
 
-STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'./image_labelling_tool/static')
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static')]
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DEFAULT_FILE_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CSRF_COOKIE_SECURE = False
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-#
-#
-# Colour schemes and label classes are stored in the database
-#
-#
 
 
-# Annotation controls
-# Labels may also have optional meta-data associated with them
-# You could use this for e.g. indicating if an object is fully visible, mostly visible or significantly obscured.
-# You could also indicate quality (e.g. blurriness, etc)
-# There are four types of annotation. They have some common properties:
-#   - name: symbolic name (Python identifier)
-#   - label_text: label text in UI
-#   Check boxes, radio buttons and popup menus also have:
-#     - visibility_label_text: [optional] if provided, label visibility can be filtered by this annotation value,
-#       in which case a drop down will appear in the UI allowing the user to select a filter value
-#       that will hide/show labels accordingly
-# Control types:
-# Check box (boolean value):
-#   `labelling_tool.AnnoControlCheckbox`; only the 3 common parameters listed above
-# Radio button (choice from a list):
-#   `labelling_tool.AnnoControlRadioButtons`; the 3 common parameters listed above and:
-#       choices: list of `labelling_tool.AnnoControlRadioButtons.choice` that provide:
-#           value: symbolic value name for choice
-#           tooltip: extra information for user
-#       label_on_own_line [optional]: if True, place the label and the buttons on a separate line in the UI
-# Popup menu (choice from a grouped list):
-#   `labelling_tool.AnnoControlPopupMenu`; the 3 common parameters listed above and:
-#       groups: list of groups `labelling_tool.AnnoControlPopupMenu.group`:
-#           label_text: label text in UI
-#           choices: list of `labelling_tool.AnnoControlPopupMenu.choice` that provide:
-#               value: symbolic value name for choice
-#               label_text: choice label text in UI
-#               tooltip: extra information for user
-# Text (free form plain text):
-#   `labelling_tool.AnnoControlText`; only the 2 common parameters listed above and:
-#       - multiline: boolean; if True a text area will be used, if False a single line text entry
+#-------------------------------------------------------------------------------------------
 ANNO_CONTROLS = [
     labelling_tool.AnnoControlCheckbox('good_quality', 'Good quality',
                                        visibility_label_text='Filter by good quality'),
